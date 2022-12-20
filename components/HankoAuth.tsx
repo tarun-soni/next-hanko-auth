@@ -70,8 +70,6 @@ export default function HankoAuth() {
         // @ts-ignore
         api={api_url}
         lang="en"
-        // @ts-ignore
-        experimental={'conditionalMediation'}
       />
 
       {displayError.areAnyError ? (

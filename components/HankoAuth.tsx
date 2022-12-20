@@ -1,12 +1,19 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { register } from '@teamhanko/hanko-elements/hanko-auth';
 
 const api_url = process.env.NEXT_PUBLIC_HANKO_API;
 
+interface DisplayError {
+  areAnyError: boolean;
+  stringifyedError: string | null;
+}
 export default function HankoAuth() {
   const router = useRouter();
-
+  const [displayError, setDisplayError] = useState<DisplayError>({
+    areAnyError: false,
+    stringifyedError: null,
+  });
   const redirectAfterLogin = useCallback(() => {
     router.replace('/loggedIn');
   }, [router]);
@@ -23,6 +30,10 @@ export default function HankoAuth() {
     register({ shadow: true, injectStyles: true }).catch((error) => {
       // handle error
       console.log('error', error);
+      setDisplayError({
+        areAnyError: true,
+        stringifyedError: JSON.stringify(error),
+      });
     });
   }, []);
 
@@ -35,9 +46,24 @@ export default function HankoAuth() {
         height: '100vh',
         width: '100vw',
         backgroundColor: '#f4f5f5',
+        flexDirection: 'column',
       }}
     >
-      <button type="button" className="hanko-auth">
+      <button
+        type="button"
+        className="hanko-auth"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: 140,
+          height: 40,
+          borderRadius: 10,
+          backgroundColor: '#8f0afa',
+          flexDirection: 'column',
+          marginBottom: 40,
+        }}
+      >
         Login with Hanko
       </button>
       <hanko-auth
@@ -47,6 +73,24 @@ export default function HankoAuth() {
         // @ts-ignore
         experimental={'conditionalMediation'}
       />
+
+      {displayError.areAnyError ? (
+        <h2
+          style={{
+            color: '#f93333',
+          }}
+        >
+          {displayError.stringifyedError}
+        </h2>
+      ) : (
+        <h2
+          style={{
+            color: '#f93333',
+          }}
+        >
+          No errors
+        </h2>
+      )}
     </div>
   );
 }

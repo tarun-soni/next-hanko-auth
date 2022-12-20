@@ -41,8 +41,10 @@ export default function HankoAuth() {
         Login with Hanko
       </button>
       <hanko-auth
+        // @ts-ignore
         api={api_url}
         lang="en"
+        // @ts-ignore
         experimental={'conditionalMediation'}
       />
     </div>

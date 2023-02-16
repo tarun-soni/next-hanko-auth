@@ -27,7 +27,7 @@ export default function HankoAuth() {
   useEffect(() => {
     // register the component
     // see: https://github.com/teamhanko/hanko/blob/main/elements/README.md#script
-    register({ shadow: true, injectStyles: true }).catch((error) => {
+    register({ shadow: true }).catch((error) => {
       // handle error
       console.log('error', error);
       setDisplayError({
@@ -45,27 +45,10 @@ export default function HankoAuth() {
         alignItems: 'center',
         height: '100vh',
         width: '100vw',
-        backgroundColor: '#f4f5f5',
+        backgroundColor: '#fff',
         flexDirection: 'column',
       }}
     >
-      <button
-        type="button"
-        className="hanko-auth"
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: 140,
-          height: 40,
-          borderRadius: 10,
-          backgroundColor: '#8f0afa',
-          flexDirection: 'column',
-          marginBottom: 40,
-        }}
-      >
-        Login with Hanko
-      </button>
       <hanko-auth
         // @ts-ignore
         api={api_url}
@@ -75,7 +58,8 @@ export default function HankoAuth() {
       {displayError.areAnyError ? (
         <h2
           style={{
-            color: '#f93333',
+            color: '#a32726',
+            opacity: 0.8,
           }}
         >
           {displayError.stringifyedError}
@@ -83,7 +67,8 @@ export default function HankoAuth() {
       ) : (
         <h2
           style={{
-            color: '#f93333',
+            color: '#a32726',
+            opacity: 0.8,
           }}
         >
           No errors

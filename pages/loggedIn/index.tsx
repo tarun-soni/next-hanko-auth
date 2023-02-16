@@ -13,7 +13,7 @@ export default function MyPage({ cookies }: Props) {
     Object.keys(cookies).forEach((name: string) => {
       destroyCookie(null, name);
     });
-    router.replace('/home');
+    router.replace('/');
   };
 
   return (
@@ -29,22 +29,15 @@ export default function MyPage({ cookies }: Props) {
       }}
     >
       <h2>You are Logged In</h2>
-      <button
-        style={{
-          width: 100,
-          height: 50,
-          backgroundColor: '#BB4444',
-          borderRadius: 10,
-        }}
-        onClick={logoutPress}
-      >
+      <div className="btn" onClick={logoutPress}>
         Logout
-      </button>
+      </div>
     </div>
   );
 }
 
 MyPage.getInitialProps = async (ctx: NextPageContext) => {
   const cookies = parseCookies(ctx);
+  console.log('cookies --', cookies);
   return { cookies };
 };

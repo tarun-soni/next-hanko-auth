@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { register } from '@teamhanko/hanko-elements/hanko-auth';
-
+import { register } from '@teamhanko/hanko-elements';
 const api_url = process.env.NEXT_PUBLIC_HANKO_API;
 
 interface DisplayError {
@@ -49,11 +48,11 @@ export default function HankoAuth() {
         flexDirection: 'column',
       }}
     >
-      <hanko-auth
-        // @ts-ignore
-        api={api_url}
-        lang="en"
-      />
+      {api_url ? (
+        <hanko-auth api={api_url} lang="en" />
+      ) : (
+        <h2>Hanko auth api_url is not loaded. Please check your</h2>
+      )}
 
       {displayError.areAnyError ? (
         <h2

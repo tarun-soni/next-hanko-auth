@@ -1,7 +1,11 @@
+import { register } from '@teamhanko/hanko-elements';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { parseCookies, destroyCookie } from 'nookies';
 import { ParsedUrlQuery } from 'querystring';
+import { useEffect } from 'react';
+import CustomButton from '../../components/CustomButton';
+import ReziableContainer from '../../components/ReziableContainer';
 
 interface Props {
   cookies: ParsedUrlQuery;
@@ -18,30 +22,30 @@ export default function MyPage({ cookies }: Props) {
     router.replace('/');
   };
 
+  useEffect(() => {
+    if (api_url) {
+      try {
+        register({ shadow: true }).then(() => {
+          console.log('hanko-elements registered');
+        });
+      } catch (error) {
+        console.log('error', error);
+      }
+    }
+  }, []);
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        margin: '0 auto auto 0',
-        width: '100%',
-        height: '100vh',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
-      <h2>You are Logged In</h2>
+    <ReziableContainer>
+      <div className="flex flex-col items-center justify-center h-screen w-screen bg-white px-8">
+        {api_url ? (
+          <hanko-profile api={api_url} lang="en" />
+        ) : (
+          <h2>Hanko Profile api_url is not loaded. Please check your env</h2>
+        )}
 
-      {api_url ? (
-        <hanko-profile api={api_url} lang="en" />
-      ) : (
-        <h2>Hanko Profile api_url is not loaded. Please check your</h2>
-      )}
-
-      <div className="btn" onClick={logoutPress}>
-        Logout
+        <CustomButton onClick={logoutPress} text={'Logout'} />
       </div>
-    </div>
+    </ReziableContainer>
   );
 }
 
